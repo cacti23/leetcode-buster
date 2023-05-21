@@ -1,34 +1,23 @@
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        // step 1: count the 0 1 and 2
-        int arr[] = {0, 0, 0};
-        
+        // dutch national flag problem 
+        // where we need to sort three things think abou this problem 
         int n = nums.size();
+        int low = 0, mid = 0, high = n - 1;
         
-        for(int i = 0; i < n; i++) {
-            if(nums[i] == 0) {
-                arr[0]++;
-            } else if(nums[i] == 1) {
-                arr[1]++;
-            } else {
-                arr[2]++;
+        while(mid <= high) {
+            if(nums[mid] == 0) {
+                swap(nums[low], nums[mid]);
+                low++; 
+                mid++;
+            } else if(nums[mid] == 2) {
+                swap(nums[mid], nums[high]);
+                high--;
+            } else if(nums[mid] == 1) {
+                mid++;
             }
         }
-        
-        // step 2: populate the nums array 
-        for(int i = 0; i < n; i++) {
-            if(arr[0] > 0) {
-                nums[i] = 0;
-                arr[0]--;
-            } else if(arr[1] > 0) {
-                nums[i] = 1; 
-                arr[1]--;
-            } else {
-                nums[i] = 2;
-            }
-        }
-        
     }
 };
 
