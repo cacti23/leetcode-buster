@@ -1,28 +1,34 @@
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        // step 1: setup pointers
+        // store the occurence of red, white and blue objects 
+        int r = 0, w = 0, b = 0;
         int n = nums.size();
-        int low = 0, mid = 0, high = n - 1;
+        // int count[3] = {0};
         
-        // step 2: traver the array 
-        while(mid <= high) {
-            if(nums[mid] == 0) {
-                swap(nums[low], nums[mid]);
-                low++; 
-                mid++;
-            } else if(nums[mid] == 2) {
-                swap(nums[mid], nums[high]);
-                high--;
-            } else if(nums[mid] == 1) {
-                mid++;
+        for(int i = 0; i < n; i++) {
+            if(nums[i] == 0) r++;
+            else if(nums[i] == 1) w++;
+            else b++;
+        }
+        
+        // populate the input array it self 
+        for(int i = 0; i < n; i++) {
+            if(r > 0) {
+                nums[i] = 0;
+                r--;
+            } else if(w > 0) {
+                nums[i] = 1;
+                w--;
+            } else if(b > 0) {
+                nums[i] = 2;
+                b--;
             }
         }
+        
+        return;
     }
 };
 
-// Dutch national flag problem -> think of it where ever we need to sort three things
-// The array is traversed only one time
-
-// tc -> O(n)
+// tc => O(n) + O(n)
 // sc -> O(1)
