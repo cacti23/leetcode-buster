@@ -1,37 +1,46 @@
 class Solution {
 public:
     void merge(vector<int>& nums1, int n, vector<int>& nums2, int m) {
-        // step 1: declare two pointers 
-        int i = n - 1, j = 0;
+        // step 1: setup gap and instialize 
+        int gap = ((n + m) / 2) + ((n + m) % 2);
         
-        // step 2: start from end of nums1 and starting of num2 
-        while(i >= 0 && j < m) {
-            if(nums1[i] >= nums2[j]) {
-                swap(nums1[i], nums2[j]);
-                i--, j++;
-            } else {
-                break;
+        // step 2: loop through gap 
+        while(gap > 0) {
+            // step a: setup left and right 
+            int left = 0; 
+            int right = left + gap;
+            
+            // step b: loop through right
+            while(right < (n + m)) {
+                // step b: write cases   
+                // case 1: in nums1 and nums2 
+                if(left < n && right >= n && nums1[left] > nums2[right - n]) {
+                    swap(nums1[left], nums2[right - n]);
+                } 
+                // case 2: both in num2
+                else if(left >= n && nums2[left - n] > nums2[right - n]) {
+                    swap(nums2[left - n], nums2[right -n]);
+                }
+                // case 3: both in nums1
+                else if(right < n && nums1[left] > nums1[right]) {
+                    swap(nums1[left], nums1[right]);
+                }
+                
+                left++;
+                right++;
             }
+            
+            if(gap == 1) break;
+            
+            gap = (gap / 2) + (gap % 2);
         }
         
-        // the time complexity of this loop will be O(min(n, m))
-        // after this loop is completed nums1 will have all elements smaller than elements of nums2 
-        // initially it was 1 3 5 7 and 0 2 6 8 9
-        // after loop it will be 1 3 0 2 and 7 5 6 8 9 
-        
-        
-        // step 3: sort each array 
-        sort(nums1.begin(), nums1.end() - m); // tc -> O(nlogn)
-        sort(nums2.begin(), nums2.end()); // tc -> O(mlogm)
-        
-        // step 4: copy elements of nums 2 to the end of nums1
-        for(i = n, j = 0; i < n + m && j < m; i++,j++) {
-            nums1[i] = nums2[j];
+        // step 3: copy elements from num2 to nums1
+        for(int i = 0; i < m; i++) {
+            nums1[n + i] = nums2[i];
         }
         
         return;
+        
     }
 };
-
-// tc -> O(min(n, m)) + O(nlogn) + O(nlogm)
-// sc -> O(1)
