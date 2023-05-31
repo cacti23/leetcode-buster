@@ -1,39 +1,27 @@
 class Solution {
 public:
     void merge(vector<int>& nums1, int n, vector<int>& nums2, int m) {
-        // step 1: declare a new array with size m + n
-        vector<int> ans;
-    
+        // step 1: declare pointers 
+        int i = n - 1, j = m - 1, k = n + m - 1;
         
-        // step 2: start a loop and insert elements into ans array 
-        int i = 0, j = 0;
-        while(i < n && j < m) {
-            if(nums1[i] <= nums2[j]) {
-                ans.push_back(nums1[i]);
-                i++;
+        // step 2: now start from the end and insert elements into num1 because the size of nums 1 is n + m
+        while(i >= 0 && j >= 0 && k >= 0) {
+            if(nums1[i] >= nums2[j]) {
+                nums1[k--] = nums1[i--];
             } else {
-                ans.push_back(nums2[j]);
-                j++;
+                nums1[k--] = nums2[j--];
             }
         }
         
-        // step 3: check for nums 1
-        while(i < n) {
-            ans.push_back(nums1[i]);
-            i++;
-        }
-        
-        // step 4: check for nums 2
-        while(j < m) {
-            ans.push_back(nums2[j]);
-            j++;
-        }
-        
-        // step 5: copy answer to the nums 1 array 
-        for(int k = 0; k < (n + m); k++) {
-            nums1[k] = ans[k];
+        // the above while loop get over because either of i or j becoming negative when j becomes neasgtive then we dont have to do anything because all the elements from j side is inserted into nums 1 but if i becomes neagtaive then we need to process the remaining j elements 
+        // step 2: process the elements for nums2
+        while(j >= 0) {
+            nums1[k--] = nums2[j--];
         }
         
         return;
     }
 };
+
+// tc -> O(n + m)
+// sc -> O(1)
