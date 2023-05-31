@@ -1,27 +1,37 @@
 class Solution {
 public:
     void merge(vector<int>& nums1, int n, vector<int>& nums2, int m) {
-        // step 1: declare pointers 
-        int i = n - 1, j = m - 1, k = n + m - 1;
+        // step 1: declare two pointers 
+        int i = n - 1, j = 0;
         
-        // step 2: now start from the end and insert elements into num1 because the size of nums 1 is n + m
-        while(i >= 0 && j >= 0 && k >= 0) {
+        // step 2: start from end of nums1 and starting of num2 
+        while(i >= 0 && j < m) {
             if(nums1[i] >= nums2[j]) {
-                nums1[k--] = nums1[i--];
+                swap(nums1[i], nums2[j]);
+                i--, j++;
             } else {
-                nums1[k--] = nums2[j--];
+                break;
             }
         }
         
-        // the above while loop get over because either of i or j becoming negative when j becomes neasgtive then we dont have to do anything because all the elements from j side is inserted into nums 1 but if i becomes neagtaive then we need to process the remaining j elements 
-        // step 2: process the elements for nums2
-        while(j >= 0) {
-            nums1[k--] = nums2[j--];
+        // the time complexity of this loop will be O(min(n, m))
+        // after this loop is completed nums1 will have all elements smaller than elements of nums2 
+        // initially it was 1 3 5 7 and 0 2 6 8 9
+        // after loop it will be 1 3 0 2 and 7 5 6 8 9 
+        
+        
+        // step 3: sort each array 
+        sort(nums1.begin(), nums1.end() - m); // tc -> O(nlogn)
+        sort(nums2.begin(), nums2.end()); // tc -> O(mlogm)
+        
+        // step 4: copy elements of nums 2 to the end of nums1
+        for(i = n, j = 0; i < n + m && j < m; i++,j++) {
+            nums1[i] = nums2[j];
         }
         
         return;
     }
 };
 
-// tc -> O(n + m)
+// tc -> O(min(n, m)) + O(nlogn) + O(nlogm)
 // sc -> O(1)
