@@ -1,28 +1,26 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        // using frequency array 
-        int n = nums.size();
+        // using linked list cycle method        
+        // detect cycle 
+        int slow = nums[0], fast = nums[0];
         
-        vector<int> freq(n, 0);
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while(slow != fast);
         
-        int ans = -1;
+        // cycle is there 
+        fast = nums[0];
         
-        // populate freq 
-        for(int i = 0; i < n; i++) {
-            freq[nums[i]]++;
+        while(slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
         }
         
-        // check for repeat in freq array
-        for(int i = 1; i < n; i++) {
-            if(freq[i] > 1) {
-                ans = i;
-            }
-        }
-        
-        return ans;
-    }
+        return slow;
+    } 
 };
 
-// tc -> O(n) + O(n)
-// sc -> O(n)
+// tc -> O(n)
+// sc -> O(1)
