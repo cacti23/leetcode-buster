@@ -1,9 +1,6 @@
 class Solution {
 public:
-    int majorityElement(vector<int>& nums) {
-        // if we sort the array mid will the the marjority element always 
-        sort(nums.begin(), nums.end());
-        
+    int majorityElement(vector<int>& nums) {        
         int n = nums.size();
         
         map<int, int> mpp;
