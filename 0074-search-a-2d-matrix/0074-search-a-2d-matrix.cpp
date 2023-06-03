@@ -1,51 +1,29 @@
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        // brute force soolution 
+        // using binary search 
         int rows = matrix.size();
         int cols = matrix[0].size();
+        int lo = 0;
+        int hi = (rows* cols) - 1;
         
-        if(rows == 1) {
-            for(int i = 0; i < cols; i++) {
-                if(target == matrix[0][i]) return true;
+        while(lo <= hi) {
+            int mid = lo + (hi - lo) / 2;
+            
+            // update row and col 
+            if(matrix[mid / cols][mid % cols] == target) return true;
+            
+            // search right side
+            else if(matrix[mid / cols][mid % cols] < target) {
+                lo = mid + 1;
+            }
+            
+            // search left side 
+            else {
+                hi = mid - 1;
             }
         }
-        
-        int rowToSearch = -1;
-        
-        // traverse the last column
-        for(int i = 1; i < rows; i++) {
-            int ele1 = matrix[i - 1][cols - 1]; // last element of previous row
-            int ele2 = matrix[i][cols - 1]; // last element of current row
-            // we know that ele1 is less than ele2
-            /// write conditions
-            
-            if(target <= ele1) {
-                if(target == ele1) return true;
-                rowToSearch = i - 1;
-                break;
-            } else if(target > ele1 && target <= ele2) {
-                if(target == ele2) return true;
-                rowToSearch = i;
-                break;
-            } 
-        }
-        
-        
-        if(rowToSearch == -1) {
-            return false;
-        }
-        
-        
-        // we have a row where we can find the element 
-        for(int i = 0; i < cols; i++) {
-            if(target == matrix[rowToSearch][i]) return true;
-        }
-        
         
         return false;
     }
 };
-
-// tc -> O(m*n)
-// sc -> O(1)
