@@ -6,10 +6,16 @@ public:
         
         int n = nums.size();
         
-        int low = 0, high = n - 1;
+        map<int, int> mpp;
         
-        int mid = low + (high - low) / 2;
+        for(int i = 0; i < n; i++) {
+            mpp[nums[i]]++;
+        }
         
-        return nums[mid];
+        for(int i = 0; i < n; i++) {
+            if(mpp[nums[i]] > n / 2) return nums[i];
+        }
+        
+        return -1;
     }
 };
