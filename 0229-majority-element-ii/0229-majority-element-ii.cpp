@@ -5,20 +5,19 @@ public:
         
         vector<int> ans;
         
+        map<int, int> mpp;
+        
         for(int i = 0; i < n; i++) {
-            int cnt = 0;
-            
+            mpp[nums[i]]++;
+        }
+        
+        for(int i = 0; i < n; i++) {
+                
             if(ans.size() == 1 && ans[0] == nums[i]) continue;
             
-            for(int j = 0; j < n; j++) {
-                if(nums[i] == nums[j]) cnt++;
-            }
+            if(mpp[nums[i]] > n / 3) ans.push_back(nums[i]);
             
-            if(cnt > n / 3) {
-                if(ans.size() == 2) break;
-                
-                ans.push_back(nums[i]);
-            }
+            if(ans.size() == 2) break;
         }
         
         return ans;
