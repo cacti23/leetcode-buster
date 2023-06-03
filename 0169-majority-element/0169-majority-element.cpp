@@ -17,6 +17,17 @@ public:
             }
         }
         
-        return element;
+        // you can verify also becuase in some other question it wil be like majority element may exists
+        
+        int cntVerify = 0;
+        for(int i = 0; i < n; i++) {
+            if(element == nums[i]) {
+                cntVerify++;
+            }
+        }
+        
+        if(cntVerify > n / 2) return element;
+        
+        return -1;
     }
 };
