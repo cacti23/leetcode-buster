@@ -5,27 +5,31 @@ public:
         
         if(n <= 1) return n;
         
-        // sort the array 
-        sort(nums.begin(), nums.end());
+        set<int> hashSet;
         
-        // traverse the array 
-        int ans = 0;
-        int tempCnt = 0;
-        
-        for(int i = 0; i < n - 1; i++) {
-            if(nums[i] + 1 == nums[i + 1]) {
-                tempCnt++;
-            } else if(nums[i] == nums[i + 1]) {
-                continue;
-            } 
-            else {
-                tempCnt = 0;
-            }
-            
-            ans = max(tempCnt, ans);
+        // insert elements into hashset
+        for(int i = 0; i < n; i++) {
+            hashSet.insert(nums[i]);
         }
         
-        return ans + 1;
+        int longestStreak = 0;
+        // traverse the array 
+        for(int i = 0; i < n; i++) {
+            // in order to count the sequnce we need to know for sure that the element  is the starting element or not 
+            // the below conditions checks if the element before nums[i] is not present then only we gonna move further
+            if(!hashSet.count(nums[i] - 1)) {
+                int currentNum = nums[i];
+                int currentStreak = 1;
+                
+                while(hashSet.count(currentNum + 1)) {
+                    currentStreak++;
+                    currentNum++;
+                }
+                
+                longestStreak = max(longestStreak, currentStreak);
+            }
+        }
         
+        return longestStreak;
     }
 };
