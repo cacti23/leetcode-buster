@@ -1,23 +1,25 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        // using two for loops 
+        // using hashing
         int n = nums.size();
         
         vector<int> ans;
         
+        map<int, int> mpp;
+        // key difference and value index
+        
         for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                if(i != j && (nums[i] + nums[j]) == target) {
-                    ans.push_back(i);
-                    ans.push_back(j);
-                    cout << "heu" << endl;
-                    break;
-                }
+            int diff = target - nums[i];
+            
+            if(mpp.find(diff) != mpp.end()) {
+                ans.push_back(i);
+                ans.push_back(mpp[diff]);
+                break;
             }
             
-            if(ans.size() == 2) break;
-        }
+            mpp[nums[i]] = i;
+         }
         
         return ans;
     }
