@@ -5,7 +5,7 @@ public:
         
         if(n <= 1) return n;
         
-        set<int> hashSet;
+        unordered_set<int> hashSet;
         
         // insert elements into hashset
         for(int i = 0; i < n; i++) {
