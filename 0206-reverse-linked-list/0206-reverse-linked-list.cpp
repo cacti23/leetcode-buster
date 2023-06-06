@@ -10,25 +10,29 @@
  */
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) {
-        if(head == NULL || head-> next == NULL) return head;
-        
-        ListNode* curr = head;
-        ListNode* prev = NULL;
-        ListNode* tempNode = NULL;
-        
-        while(curr != NULL) {
-            tempNode = curr -> next;
-            
-            curr -> next = prev;
-            prev = curr;
-            
-            curr = tempNode; 
+    // head recursion
+    void reverseListHelper(ListNode* curr, ListNode* prev, ListNode* &head) {
+        if(curr == NULL) {
+            // update head which we need to return 
+            head = prev;
+            return;
         }
         
-        return prev;
+        ListNode* next = curr->next;
+        curr -> next = prev;
+        
+        reverseListHelper(next, curr, head);
+    }
+    
+    ListNode* reverseList(ListNode* &head) {
+        ListNode* curr = head;
+        ListNode* prev = NULL;
+        
+        reverseListHelper(curr, prev, head);
+        
+        return head;
     }
 };
 
 // tc -> O(n)
-// sc -> O(1)
+// sc -> O(n) // for stack 
