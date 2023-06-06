@@ -1,39 +1,38 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int n = s.size();
-        
-        if(n <= 1) return n;
-        
-        // use two pointer and hash set 
-        unordered_set<int> uset;
-        
-        int maxi = INT_MIN;
-        
-        int left = 0; // denote starting character
+        int n = s.length();
 
-        for(int right = 0; right < n; right++) {
-            // if the element is not present in the set 
-            if(uset.find(s[right]) == uset.end()) {
-                // means repeating charcter is not present between l and r 
-                maxi = max(maxi, right - left + 1);
-                uset.insert(s[right]);
-            }       
-            // if the element is present in the set
-            else {
-                // means that repeating element can be between l and r 
-                // increment l till that character is removed form 
-                while(uset.find(s[right]) != uset.end() && left < right) {
-                    uset.erase(s[left]);
-                    left++;
-                }
+        if(n <= 1) return n;
+
+        int maxLen = INT_MIN;
+        // element, index
+        unordered_map<int, int> hashMap;
+
+        int l = 0;
+        for(int r = 0; r < n; r++) {
+            // if elemenet is not present in map 
+            if(hashMap.find(s[r]) == hashMap.end()) {
+                // insert the element & index into the map
+                hashMap[s[r]] = r;
+            } else {
+                // if the element is found means between l and r
+                // there is a repeating element
+                // so we keep on skip L to repeating element index + 1
+                if(l < hashMap[s[r]] + 1) l = hashMap[s[r]] + 1;
                 
-                // now there is no repeating character between l and r
-                // this line is added becuase we are using for loop
-                uset.insert(s[right]);
+                // update the index of the element in hashmap
+                hashMap[s[r]] = r;            
             }
+
+            // after executing above if else it will be 100 %
+            // there will be no repeating element in between l and r
+            maxLen = max(maxLen, r - l + 1);
         }
-        
-        return maxi;
+
+        return maxLen;
     }
 };
+
+// tc -> O(n)
+// sc -> O(1)
