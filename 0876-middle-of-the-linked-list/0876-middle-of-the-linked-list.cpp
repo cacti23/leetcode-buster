@@ -11,15 +11,22 @@
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        // tortoise hare approach
-        ListNode* slow = head;
-        ListNode* fast = head;
+        // brute force
+        // calculate lenght of linked list 
+        ListNode* curr = head;
+        int len = 0;
         
-        while(fast != NULL && fast -> next != NULL) {
-            slow = slow -> next;
-            fast = fast -> next -> next;
+        while(curr != NULL) {
+            len++;
+            curr = curr -> next;
         }
         
-        return slow;
+        curr = head;
+        
+        for(int i = 0; i < len / 2; i++) {
+            curr = curr -> next;
+        }
+        
+        return curr;
     }
 };
