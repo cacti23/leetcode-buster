@@ -11,73 +11,66 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
+        // without using extra space 
+        // head1 and head2 value will keep changing they will act as curr 1 and curr 2
         
-        // extra linked list apraoch 
         ListNode* ansHead = NULL;
-        ListNode* curr = NULL;
+        ListNode* ansCurr = NULL;
         
         while(head1 != NULL && head2 != NULL) {
-            // value at head 1 is less than value at head2
+            // head1 val is less than head2 val
             if(head1 -> val < head2 -> val) {
-                // this condition anywhere in this code signifies that 
-                // this is the first element in the ans list 
+                // check for first element
                 if(ansHead == NULL) {
-                    // intialize the ansHead and curr;
-                    ansHead = new ListNode(head1 -> val);
-                    curr = ansHead;
+                    ansHead = head1;
+                    ansCurr = ansHead;
                 } else {
-                    curr -> next = new ListNode(head1 -> val);
-                    curr = curr -> next;
+                    ansCurr -> next = head1;
+                    ansCurr = ansCurr -> next;
                 }
                 
                 head1 = head1 -> next;
             }
-            // vice versa  
+            // vice versa
             else {
                 if(ansHead == NULL) {
-                    // intialize the ansHead and curr;
-                    ansHead = new ListNode(head2 -> val);
-                    curr = ansHead;
+                    ansHead = head2;
+                    ansCurr = ansHead;
                 } else {
-                    curr -> next = new ListNode(head2 -> val);
-                    curr = curr -> next;
+                    ansCurr -> next = head2;
+                    ansCurr = ansCurr -> next;                    
                 }
                 
                 head2 = head2 -> next;
             }
         }
         
-        // if len1 different than len2
-        
-        // process remaining elements of linked list
-        
+        // process remaining elements in head1 and head2
+
         while(head1 != NULL) {
             if(ansHead == NULL) {
-                ansHead = new ListNode(head1 -> val);
-                curr = ansHead;
+                ansHead = head1;
+                ansCurr = ansHead;
             } else {
-                curr -> next = new ListNode(head1 -> val);
-                curr = curr -> next;
+                ansCurr -> next = head1;
+                ansCurr = ansCurr -> next;
             }
- 
+
             head1 = head1 -> next;
         }
         
         while(head2 != NULL) {
             if(ansHead == NULL) {
-                ansHead = new ListNode(head2 -> val);
-                curr = ansHead;
+                ansHead = head2;
+                ansCurr = ansHead;
             } else {
-                curr -> next = new ListNode(head2 -> val);
-                curr = curr -> next;
+                ansCurr -> next = head2;
+                ansCurr = ansCurr -> next;
             }
-            
+
             head2 = head2 -> next;
         }
         
         return ansHead;
     }
 };
-
-// tc -> O(n + m)
-// sc -> O(n + m)
