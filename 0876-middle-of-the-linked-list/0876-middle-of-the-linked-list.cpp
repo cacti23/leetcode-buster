@@ -11,7 +11,7 @@
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        // brute force
+        // tortoise hare approach
         ListNode* slow = head;
         ListNode* fast = head;
         
