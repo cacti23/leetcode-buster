@@ -9,19 +9,16 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        // use hasing 
-        unordered_set<ListNode*> uset;
+        if(head == NULL || head -> next == NULL) return false;
+        // use tortoise and hare approach 
+        ListNode* slow = head;
+        ListNode* fast = head;
         
-        ListNode* curr = head;
-        
-        while(curr != NULL) {
-            // if node is present in the hashmap then cycle is there 
-            if(uset.find(curr) != uset.end()) {
-                return true;
-            }
+        while(fast != NULL && fast -> next != NULL) {
+            slow = slow -> next;
+            fast = fast -> next -> next;
             
-            uset.insert(curr);
-            curr = curr -> next;
+            if(slow == fast) return true; 
         }
         
         return false;
@@ -29,4 +26,4 @@ public:
 };
 
 // tc -> O(n)
-// sc -> O(n)
+// sc -> O(1)
