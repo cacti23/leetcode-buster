@@ -11,40 +11,34 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
+        // if ll has only single element 
         if(head -> next == NULL) return NULL;
         
-        ListNode* curr = head;
+        ListNode* dummy = new ListNode(-1);
+        dummy -> next = head;
         
-        // calculate length 
+        ListNode* curr = head;
         int len = 0;
         
+        // calculate length
         while(curr != NULL) {
             len++;
             curr = curr -> next;
         }
         
-        // if n is equal to len then 
-        // here ll with minimum size of 2 should only come
-        if(len == n) return head -> next;
+        curr = dummy;
         
-        // traverse linked list again to get the element to remove 
-        ListNode* prev = new ListNode(-1);
-        curr = head;
-        
+        // now we have to traverse till totalNode - n which is the node just before the on we want to delete 
         for(int i = 0; i < len - n; i++) {
-            prev = curr;
             curr = curr -> next;
         }
         
-        // current has the element that needs to be removed
-        prev -> next = curr -> next;
-        curr -> next = NULL;
+        // in case if len is equal to n then above for loop wont run and curr will be at dummy only
+        ListNode* nodeToRemove = curr -> next;
+        curr -> next = nodeToRemove -> next;
+        delete nodeToRemove;
         
-        delete curr;
         
-        return head;
+        return dummy -> next;
     }
 };
-
-// tc -> O(n) 
-// sc -> O(1)
