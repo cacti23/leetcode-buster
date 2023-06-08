@@ -9,31 +9,61 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        // using hasing approach        
+        // use length difference 
         ListNode* curr1 = headA;
         ListNode* curr2 = headB;
         
-        unordered_set<ListNode*> uset;
-        // insert all elements of headA list into hashSet
+        // find the len of headA ll 
+        int len1 = 0;
         while(curr1 != NULL) {
-            uset.insert(curr1);
-            
+            len1++;
             curr1 = curr1 -> next;
         }
         
-        // traverse over headB list and check if element is present in set 
+        // find the len of headB ll 
+        int len2 = 0;
         while(curr2 != NULL) {
-            // if the element is present in the hashSet
-            if(uset.find(curr2) != uset.end()) {
-                return curr2;
+            len2++;
+            curr2 = curr2 -> next;
+        }
+        
+        // find which one len is greater and move that curr to the difference
+        int diff = 0;
+        
+        curr1 = headA;
+        curr2 = headB;
+        if(len1 > len2) {
+            diff = len1 - len2;
+            // move curr1 to diff times 
+            while(diff > 0) {
+                curr1 = curr1 -> next;
+                diff--;
+            }
+        } else if(len2 > len1) {
+            diff = len2 - len1;
+            // move curr2 to diff times
+            while(diff > 0) {
+                curr2 = curr2 -> next;
+                diff--;
+            }
+        }
+        
+        // after the above if and else if both curr1 and curr2 are at correct position 
+        // not check if len1 and len2 are equal becuase curr1 and curr2 will be at the head only 
+        
+        while(curr1 != NULL && curr2 != NULL) {
+            if(curr1 == curr2) {
+                return curr1;
             }
             
+            curr1 = curr1 -> next;
             curr2 = curr2 -> next;
         }
         
         return NULL;
+        
     }
 };
 
 // tc -> O(n + m)
-// sc -> O(m) -> since we are inserting only headA element to the list
+// sc -> O(1)
