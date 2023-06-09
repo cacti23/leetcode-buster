@@ -9,61 +9,29 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        // use length difference 
+        // use optimal approach two 
         ListNode* curr1 = headA;
         ListNode* curr2 = headB;
         
-        // find the len of headA ll 
-        int len1 = 0;
-        while(curr1 != NULL) {
-            len1++;
-            curr1 = curr1 -> next;
+        int switchCount = 0;
+        
+        // in this single loop we gonna travel both lists
+        // if headA and headB has different len
+        // if loop exists then curr1 will have answer 
+        // if loop does not exists curr1 and curr2 will be NULL together after when they are from same distance at the end 
+        while(curr1 != curr2) {
+            // after first iteration curr1 and curr2 will be reset to the head of another linked list 
+            curr1 = curr1 == NULL ? headB : curr1 -> next;
+            curr2 = curr2 == NULL ? headA : curr2 -> next;
         }
         
-        // find the len of headB ll 
-        int len2 = 0;
-        while(curr2 != NULL) {
-            len2++;
-            curr2 = curr2 -> next;
-        }
-        
-        // find which one len is greater and move that curr to the difference
-        int diff = 0;
-        
-        curr1 = headA;
-        curr2 = headB;
-        if(len1 > len2) {
-            diff = len1 - len2;
-            // move curr1 to diff times 
-            while(diff > 0) {
-                curr1 = curr1 -> next;
-                diff--;
-            }
-        } else if(len2 > len1) {
-            diff = len2 - len1;
-            // move curr2 to diff times
-            while(diff > 0) {
-                curr2 = curr2 -> next;
-                diff--;
-            }
-        }
-        
-        // after the above if and else if both curr1 and curr2 are at correct position 
-        // not check if len1 and len2 are equal becuase curr1 and curr2 will be at the head only 
-        
-        while(curr1 != NULL && curr2 != NULL) {
-            if(curr1 == curr2) {
-                return curr1;
-            }
-            
-            curr1 = curr1 -> next;
-            curr2 = curr2 -> next;
-        }
-        
-        return NULL;
-        
+        return curr1;
     }
 };
+
+// to understand this solution better
+// first dry run with linked list with intersection 
+// then linked list without intersection
 
 // tc -> O(n + m)
 // sc -> O(1)
