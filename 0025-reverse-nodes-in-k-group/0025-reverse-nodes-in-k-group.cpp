@@ -10,50 +10,52 @@
  */
 class Solution {
 public:
-    ListNode* solve(ListNode* head, int k, int &len) {
-        // base case 
-        if(len < k || head == NULL) {
+    // Helper function to reverse k nodes in the linked list and return the new head
+    ListNode* reverseKNodes(ListNode* head, int k, int &remainingLen) {
+        // Base case: return head if remaining length is less than k or head is NULL
+        if(remainingLen < k || head == NULL) {
             return head;
         }
         
-        // reverse logic
+        // Initialize pointers for reverse logic
         ListNode* prev = NULL;
         ListNode* curr = head;
         
-        int temp = k;
-        while(temp > 0) {
-            ListNode* tempNode = curr -> next;
-            curr -> next = prev;
+        // Reverse k nodes in the linked list
+        for (int i = 0; i < k; i++) {
+            ListNode* nextNode = curr->next;
+            curr->next = prev;
             prev = curr;
-            curr = tempNode;
-            
-            temp--;
+            curr = nextNode;
         }
         
-        int updatedLen = len - k;
+        // Update remaining length
+        remainingLen -= k;
         
-        ListNode* remHead = solve(curr, k, updatedLen);
+        // Recursively reverse the remaining nodes in groups of k
+        ListNode* remainingHead = reverseKNodes(curr, k, remainingLen);
         
-        head -> next = remHead;
+        // Connect the reversed part to the remaining part
+        head->next = remainingHead;
         
+        // Return the new head of the reversed part
         return prev;
     }
     
     ListNode* reverseKGroup(ListNode* head, int k) {
-        // using recursive appraoch 
-        if(head == NULL || head -> next == NULL) return head;
-        
-        // calculate length of the linked list
+        // Calculate the length of the linked list
         ListNode* curr = head;
         int len = 0;
         
         while(curr != NULL) {
             len++;
-            curr = curr -> next;
+            curr = curr->next;
         }
         
-        ListNode* newHead = solve(head, k, len);
+        // Reverse nodes in k groups using the helper function
+        ListNode* newHead = reverseKNodes(head, k, len);
         
         return newHead;
     }
 };
+
