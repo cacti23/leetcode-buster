@@ -1,54 +1,59 @@
-// Definition of the ListNode structure
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
+    ListNode* solve(ListNode* head, int k, int &len) {
+        // base case 
+        if(len < k || head == NULL) {
+            return head;
+        }
+        
+        // reverse logic
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        
+        int temp = k;
+        while(temp > 0) {
+            ListNode* tempNode = curr -> next;
+            curr -> next = prev;
+            prev = curr;
+            curr = tempNode;
+            
+            temp--;
+        }
+        
+        int updatedLen = len - k;
+        
+        ListNode* remHead = solve(curr, k, updatedLen);
+        
+        head -> next = remHead;
+        
+        return prev;
+    }
+    
     ListNode* reverseKGroup(ListNode* head, int k) {
-        // Base case: if the head is NULL or there is only one element in the list
+        // using recursive appraoch 
         if(head == NULL || head -> next == NULL) return head;
         
-        // Calculate the length of the linked list
+        // calculate length of the linked list
+        ListNode* curr = head;
         int len = 0;
-        ListNode* cur = head;
-        while(cur != NULL) {
+        
+        while(curr != NULL) {
             len++;
-            cur = cur -> next;
+            curr = curr -> next;
         }
         
-        // Create a dummy head node to simplify the process of reversing the list
-        ListNode* dummyHead = new ListNode(-1);
-        dummyHead -> next = head;
+        ListNode* newHead = solve(head, k, len);
         
-        // Initialize pointers pre, cur, and nex for traversing and reversing the list
-        ListNode* pre = dummyHead;
-        cur = pre -> next;
-        ListNode* nex = cur -> next;
-    
-        // Iterate through the list while the remaining length is greater than or equal to k
-        while(len >= k) {
-            cur = pre -> next;
-            nex = cur -> next;
-            
-            // Reverse the k-sized group of nodes
-            int temp = k;
-            while(temp > 1) {
-                cur -> next = nex -> next;
-                nex -> next = pre -> next;
-                pre -> next = nex;
-                nex = cur -> next;
-                
-                temp--;
-            }
-            
-            // Move the pre pointer to the end of the current group
-            pre = cur;
-            // Update the remaining length of the list
-            len -= k;
-        }
-        
-        // Return the new head of the modified list
-        return dummyHead -> next;
+        return newHead;
     }
 };
-
-
-// tc -> O((n / k) * k)
-// sc -> O(1)
