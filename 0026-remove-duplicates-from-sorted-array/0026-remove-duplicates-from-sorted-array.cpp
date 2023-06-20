@@ -24,5 +24,5 @@ public:
     }
 };
 
-// tc -> O(n * logn)
+// tc -> O(n * logn) + O(n) -> O(n * logn)
 // sc -> O(m) , where m is the number of unique elements
