@@ -1,28 +1,25 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        // use ordered set 
-        set <int> oset;
+        // use two pointers approach
         int n = nums.size();
         
-        for(int i = 0; i < n; i++) {
-            oset.insert(nums[i]);
+        int i = 0, j = 1;
+        
+        while(j < n) {
+            // if the elements at i & j are same
+            if(nums[i] == nums[j]) {
+                j++;
+            } else {
+                i++;
+                // swap the elements
+                swap(nums[i], nums[j]);
+                j++;
+            }
         }
         
-        // here k will be the answer 
-        // which indicates the number of unique elements
-        int k = oset.size();
-        
-        // now copy unique elements to the input array
-        int i = 0;
-        for(auto it = oset.begin(); it != oset.end(); it++) {
-            nums[i++] = *it;
-        }
-        
-        return k;
+        // when this loop is completed from 0 to i index will represent the unique elements
+        return i + 1;
         
     }
 };
-
-// tc -> O(n * logn) + O(n) -> O(n * logn)
-// sc -> O(m) , where m is the number of unique elements
