@@ -19,56 +19,65 @@ public:
     Node* copyRandomList(Node* head) {
         if(head == NULL) return head;
         
-        // create a new linked list without copying random pointer
-        Node* tempHead = new Node(-1);
-        
+        // modify the current linked list
+        // insert new element with same value next to the old element with that value
         Node* curr = head;
         
-        Node* tempCurr = tempHead;
-        
         while(curr != NULL) {
-            Node* newNode = new Node(curr -> val);
-            tempCurr -> next = newNode;
+            // insert new element 
+            Node* tempNew = new Node(curr -> val);
+            Node* tempNext = curr -> next;
             
-            // move both pointers to next node
-            tempCurr = tempCurr -> next;
-            curr = curr -> next;
+            curr -> next = tempNew;
+            tempNew -> next = tempNext;
+            
+            // skip the new element and move to next old one
+            curr = tempNew -> next;
         }
         
-        // new linked list is created without the random pointer
+        // now the list will contain for example 1, 1, 7, 7, 13, 13 ....
+        
+        // now copy the random pointers 
         curr = head;
-        tempCurr = tempHead -> next;
-        
-        // create a hashmap that maps the old node with new nodes
-        unordered_map<Node*, Node*> umap;
-        
-        while(curr != NULL) {
-            umap[curr] = tempCurr;
+        while(curr != NULL && curr -> next != NULL) {
+            // copy random pointer of old element to random pointer of new element 
+            Node* tempRand = curr -> random;
             
-            // move both pointers to next node
-            tempCurr = tempCurr -> next;
-            curr = curr -> next;
+            // next of this random pinter will be the one to copy in new pointer
+            Node* tempNew = curr -> next;
+            if(tempRand != NULL) {
+                tempNew -> random = tempRand -> next;
+            } else {
+                tempNew -> random = NULL;
+            }
+            
+            // skip the new element and move to old one
+            curr = tempNew -> next;
         }
         
-        // now iterate over the old linked list and copy the random pointers as well 
+        // we have copied random pointer successfully
+        // now create a answer linked list 
+        Node* dummyHead = new Node(-1);
+        Node* tempCurr = dummyHead;
+        
         curr = head;
-        tempCurr = tempHead -> next;
         
-        while(curr != NULL) {
-            // find the matching for random pointer in hashmap
-            Node* nodeMatch = umap[curr -> random];
+        while(curr != NULL && curr -> next != NULL) {
+            Node* tempNew = curr -> next;
             
-            tempCurr -> random = nodeMatch;
+            // remove new element form this list 
+            curr -> next = tempNew -> next;
             
-            // move both pointers to next node
+            tempCurr -> next = tempNew;
+            
             tempCurr = tempCurr -> next;
             curr = curr -> next;
+            
         }
         
-        return tempHead -> next;
-        
+        return dummyHead -> next;
     }
 };
 
-// tc -> O(n) + O(n) + O(n) -> O(n)
-// sc -> O(n)
+// tc -> O(n) + O(n) + O(n)
+// sc -> O(1)
