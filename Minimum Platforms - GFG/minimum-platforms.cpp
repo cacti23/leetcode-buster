@@ -12,36 +12,41 @@ class Solution{
     //railway station such that no train waits.
     int findPlatform(int arr[], int dep[], int n)
     {
-    	// the intuition behind is the find the maximum overlap of time
-        // think about lines intersection 
-        // maximum timing overlap = minimum platforms
-        
-        // sort both arrays 
-        sort(arr, arr + n);
-        sort(dep, dep + n);
-        
-        int i = 0; // for arrivals
-        int j = 0; // for departure
-        int ans = 0;
-        // before arrival will get over first
-        int count = 0;
-        while(i < n) {
-            if(arr[i] <= dep[j]) {
-                count++;
-                ans = max(ans, count);
-                i++;
-            } else {
-                count--;
-                j++;
-            }
-        }
-        
-        return ans;
+    	// intuiution is 
+    	// increment the count by one when the train arrives 
+    	// decrement the count by one when the train left the station 
+
+    	// maximum time that can is possible 2360
+    	vector<int> v(2361, 0);
+    	
+    	
+    	// iterate over the arrival and departure array 
+    	for(int i = 0; i < n; i++) {
+    	    // at this time the train is reached the station
+    	    // means at that time platform will be required
+    	    v[arr[i]]++;
+    	    // for departure at the departure time the train is at the station 
+    	    // hence we will require one platform atleast
+    	    // so we decrement the value for the next minute
+    	    v[dep[i] + 1]--;
+    	}
+    	
+    	int count = 0;
+    	int maxPlatforms = 0;
+    	
+    	// add the count to value and check the maximum count
+    	for(int i = 0; i < 2361; i++) {
+    	    count += v[i];
+    	    
+    	    maxPlatforms = max(count, maxPlatforms);
+    	}
+    	
+    	return maxPlatforms;
     }
 };
 
-// tc -> P(n logn) + O(nlogn) + O(n)
-// sc -> O(1)
+// tc -> O(n) + O(n) ~ O(n)
+// sc -> O(1) , becuase max 2361 elements will be there
 
 
 //{ Driver Code Starts.
