@@ -8,45 +8,39 @@ using namespace std;
 class Solution
 {
     public:
-    int solve(int W, int wt[], int val[], int i, vector<vector<int>> &dp) {
-        // base case 
-        if(i < 0) return 0;
-        
-        // if the value is already stored in dp 
-        if(dp[i][W] != -1) return dp[i][W];
-        
-        
-        int notTake = 0 + solve(W, wt, val, i - 1, dp);
-        int take = INT_MIN;
-        if(wt[i] <= W) {
-            take = val[i] + solve(W - wt[i], wt, val, i - 1, dp);
-        }
-        
-        dp[i][W] = max(notTake, take);
-        
-        return dp[i][W];
-    }
-    
     //Function to return max value that can be put in knapsack of capacity W.
-    int knapSack(int W, int wt[], int val[], int n) 
+    int knapSack(int maxWeight, int wt[], int val[], int n) 
     { 
         // declare a dp matrix 
         // declare a dp matrix 
-        vector<vector<int>> dp(n, vector<int>(W + 1, -1));
+        vector<vector<int>> dp(n, vector<int>(maxWeight + 1, 0));
+
+
+        // base case 
+        for(int w = wt[0]; w <= maxWeight; w++) dp[0][w] = val[0];
         
-        // insitallize the dp matrix 
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < W + 1; j++) {
-                dp[i][j] = -1;
+        // loop for index
+        for(int i = 1; i < n; i++) {
+            for(int w = 0; w <= maxWeight; w++) {
+                int notTake = 0 + dp[i - 1][w];
+                
+                int take = INT_MIN;
+                
+                if(wt[i] <= w) {
+                    take = val[i] + dp[i - 1][w - wt[i]];
+                }
+        
+                dp[i][w] = max(notTake, take);
             }
-        } 
+        }
         
         
-        return solve(W, wt, val, n - 1, dp);
+        return dp[n - 1][maxWeight];
     }
-    
-   
 };
+
+// tc -> O(n * w)
+// sc -> O(n * w) + O(n)
 
 
 //{ Driver Code Starts.
