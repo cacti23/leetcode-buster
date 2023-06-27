@@ -22,14 +22,12 @@ public:
                         st.push(ch);
                     }
                 } else {
-                    st.push(ch);
+                    return false;
                 }
             }  
         }
         
-        if(st.empty()) return true;
-        
-        return false;
+        return st.empty();
     }
 };
 
