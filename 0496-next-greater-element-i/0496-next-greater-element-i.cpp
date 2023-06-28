@@ -1,41 +1,33 @@
 class Solution {
 public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-        int n = nums1.size();
+        // solved using stack 
+        stack<int> st;
         
+        int n = nums1.size();
         int m = nums2.size();
         
+        unordered_map<int, int> umap;
         vector<int> ans;
         
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
-                if(nums1[i] == nums2[j]) {
-                    if(j == m - 1) {
-                        ans.push_back(-1);
-                        break;
-                    }
-                    
-                    // find next greater element in nums2
-                    int size = ans.size();
-                    for(int k = j + 1; k < m; k++) {
-                        if(nums2[k] > nums2[j]) {
-                            ans.push_back(nums2[k]);
-                            break;
-                        }
-                    }
-                    
-                    if(size == ans.size()) {
-                        ans.push_back(-1);
-                    }
-                    
-                    break;
-                }
+        // setup nge array 
+        for(int i = m - 1; i >= 0; i--) {
+            while(!st.empty() && st.top() <= nums2[i]) {
+                st.pop();
             }
+            
+            if(st.empty()) umap[nums2[i]] = -1;
+            else umap[nums2[i]] = st.top();
+            
+            st.push(nums2[i]);
+        }
+        
+        // iterate over nums1 to find the next greater element 
+        for(int i = 0; i < n; i++) {
+            ans.push_back(umap[nums1[i]]);
         }
         
         return ans;
     }
 };
 
-// tc -> O(n * m)
-// sc -> O(1)
