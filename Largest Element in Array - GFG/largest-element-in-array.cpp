@@ -10,17 +10,18 @@ using namespace std;
 class Solution
 {
 public:
+    int solve(vector<int> &arr, int n, int i) {
+        // base case 
+        if(i == n - 1) return arr[i];
+        
+        int maxEle = solve(arr, n, i + 1);
+        
+        return max(maxEle, arr[i]);
+    }
+
     int largest(vector<int> &arr, int n)
     {
-        int maxEle = INT_MIN;
-        
-        for(int i = 0; i < n; i++) {
-            if(arr[i] > maxEle) {
-                maxEle = arr[i];
-            }
-        }
-        
-        return maxEle;
+        return solve(arr, n, 0);
     }
 };
 
