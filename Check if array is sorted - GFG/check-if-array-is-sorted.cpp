@@ -22,6 +22,9 @@ class Solution {
     }
 };
 
+// tc -> O(n)
+// sc -> O(1)
+
 //{ Driver Code Starts.
 
 int main() {
