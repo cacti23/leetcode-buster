@@ -10,15 +10,19 @@ public:
 	// Function returns the second
 	// largest elements
 	int print2largest(int arr[], int n) {
-	    sort(arr, arr + n);
+	    // traverse the array once to find the largest element 
+	    int largest = INT_MIN;
+	    for(int i = 0; i < n; i++) {
+	        if(arr[i] > largest) {
+	            largest = arr[i];
+	        }
+	    }
 	    
+	    // traverse the array to find the second largest element 
 	    int secondLargest = INT_MIN;
-	    
-	    // to handle the duplicate case
-	    for(int i = n - 2; i>= 0; i--) {
-	        if(arr[i] != arr[n - 1]) {
+	    for(int i = 0; i < n; i++) {
+	        if(arr[i] > secondLargest && arr[i] != largest) {
 	            secondLargest = arr[i];
-	            break;
 	        }
 	    }
 	    
