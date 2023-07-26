@@ -22,4 +22,4 @@ public:
 };
 
 // tc -> O(n)
-// sc -> O(n)
+// sc -> O(1)
