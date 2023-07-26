@@ -1,25 +1,24 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        // use two pointers approach
+        // use hashset
+        set<int> hset;
         int n = nums.size();
         
-        int i = 0, j = 1;
-        
-        while(j < n) {
-            // if the elements at i & j are same
-            if(nums[i] == nums[j]) {
-                j++;
-            } else {
-                i++;
-                // swap the elements
-                swap(nums[i], nums[j]);
-                j++;
-            }
+        for(int i = 0; i < n; i++) {
+            hset.insert(nums[i]);
         }
         
-        // when this loop is completed from 0 to i index will represent the unique elements
-        return i + 1;
+        int k = hset.size();
+        int j = 0;
         
+        for(auto x: hset) {
+            nums[j++] = x;
+        }
+        
+        return k;
     }
 };
+
+// tc -> O(n*logn) + O(n)
+// sc -> O(n)
