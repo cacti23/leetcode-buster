@@ -13,9 +13,8 @@ public:
                 tempMaxi = 0;
             }
             
-            maxi = max(tempMaxi, maxi);
+            maxi = max(maxi, tempMaxi);
         }
-        
         
         return maxi;
     }
