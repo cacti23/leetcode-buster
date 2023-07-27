@@ -1,27 +1,33 @@
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
-        // use temp array
         int n = nums.size();
         
-        vector<int> temp(n, 0);
-        int k = 0;
+        // find the first zero
+        int j = -1;
         
-        // copy non zero element to temp array 
-        for(int i = 0; i< n; i++) {
-            if(nums[i] != 0) {
-                temp[k++] = nums[i];
+        for(int i = 0; i < n; i++) {
+            if(nums[i] == 0) {
+                j = i;
+                break;
             }
         }
         
-        // now copy back the elements to nums array 
-        for(int i = 0; i < n; i++) {
-            nums[i] = temp[i];
+        // if there is not zero present
+        if(j == -1) return;
+        
+        // find the first zero we can traverse the whole array 
+        // if you find the non zero element swap with the element of index j
+        for(int i = j + 1; i < n; i++) {
+            if(nums[i] != 0) {
+                swap(nums[j], nums[i]);
+                j++;
+            }
         }
         
         return;
     }
 };
 
-// tc -> O(n) + O(n)
-// sc -> O(n)
+// tc -> O(n)
+// sc -> O(1)
