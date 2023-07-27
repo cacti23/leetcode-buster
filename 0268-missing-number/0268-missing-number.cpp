@@ -1,26 +1,23 @@
 class Solution {
 public:
     int missingNumber(vector<int>& nums) {
-        // using freq array 
+        // using xor
         int n = nums.size();
+        int xr = 0;
         
-        vector<int> freq(n + 1, 0);
-        
-        for(int i = 0; i < n; i++) {
-            freq[nums[i]]++;
-        }
-        
-        // now check the freq array to find the missing element 
+        // xor of all the numbers from 0 to n
         for(int i = 0; i <= n; i++) {
-            if(freq[i] == 0) {
-                return i;
-            }
+            xr ^= i;
         }
         
-        return -1;
+        // xor of all the numbers in the array 
+        for(int i = 0; i < n; i++) {
+            xr ^= nums[i];
+        }
         
+        return xr;
     }
 };
 
 // tc -> O(n) + O(n)
-// sc -> O(n)
+// sc -> O(1)
