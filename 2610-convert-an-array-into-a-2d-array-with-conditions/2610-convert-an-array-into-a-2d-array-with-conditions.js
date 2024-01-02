@@ -3,35 +3,22 @@
  * @return {number[][]}
  */
 var findMatrix = function(nums) {
-
-    let countMap = new Map();
+    const freq = new Array(nums.length + 1).fill(0);
+    const ans = [];
     
-    // populate the map
     for(const n of nums) {
-        countMap.set(n, (countMap.get(n) || 0) + 1);
-    }
-    
-    let ans = [];
-    while(countMap.size > 0) {
-        let temp = [];
-        let toErase = [];
-        for(let[ele, freq] of countMap) {
-            temp.push(ele);
-            freq--;
-            if(freq == 0) {
-                toErase.push(ele);
-            }
-            countMap.set(ele, freq);
+        // if the freq of an element is greater than the size of ans than another subarray is needed to be added
+        if(freq[n] >= ans.length) {
+            ans.push([]);
         }
-        ans.push(temp);
-        for(let i of toErase) {
-            countMap.delete(i);
-        }
+        
+        ans[freq[n]].push(n);
+        freq[n]++;
     }
     
     return ans;
 };
 
-// tc -> O(n*n)
+// tc -> O(n)
 // sc -> O(n)
 // number of rows will  be decided on the basis on most repeating number  
