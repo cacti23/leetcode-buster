@@ -18,12 +18,10 @@ var findContentChildren = function(g, s) {
         }
         
         // after finding the correct cookie
-        if(j < s.length) {
-            i++;
-            j++;
-        } else {
-            break;
-        }
+        if(j >= s.length) break;
+        
+        i++;
+        j++;
     }
     
     return i;
