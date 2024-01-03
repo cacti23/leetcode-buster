@@ -4,7 +4,6 @@
 var createHelloWorld = function() {
     
     return function(...args) {
-        console.log(args);
         return "Hello World";
     }
 };
