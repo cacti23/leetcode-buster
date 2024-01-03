@@ -9,3 +9,6 @@ var arrayStringsAreEqual = function(word1, word2) {
     
     return word1 === word2;
 };
+
+// tc -> O(n + m)
+// sc -> O(n + m)
