@@ -3,11 +3,17 @@
  * @return {boolean}
  */
 var containsDuplicate = function(nums) {
-    // using sets 
-    const uniqueElements = new Set(nums);
+    // using maps
+    // in javacript maps are unordered
+    const elementCounts = new Map();
     
-    return nums.length != uniqueElements.size;
+    // count elements 
+    nums.forEach(num => {
+        elementCounts.set(num, (elementCounts.get(num) || 0) + 1);
+    });
+    
+    return Array.from(elementCounts.values()).some((count) => count > 1);
 };
 
 // tc -> O(n* logn)
-// sc -> O(1)
+// sc -> O(n)
