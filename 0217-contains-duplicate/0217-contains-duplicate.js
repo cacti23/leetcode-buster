@@ -3,17 +3,13 @@
  * @return {boolean}
  */
 var containsDuplicate = function(nums) {
-    const flag = false;
-    const n = nums.length;
+    // sort the array 
+    nums.sort((a, b) => a - b);
     
-    for(let i = 0; i < n; i++) {
-        for(let j = i + 1; j < n; j++) {
-            if(nums[i] == nums[j]) return true;
-        }
-    }
+    // check for adjacent duplicates using some
     
-    return false;
+    return nums.some((_, i) => nums[i] === nums[i + 1]);
 };
 
-// tc -> O(n^2);
+// tc -> O(nlogn)
 // sc -> O(1)
