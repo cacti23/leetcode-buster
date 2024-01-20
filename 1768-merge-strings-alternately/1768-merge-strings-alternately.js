@@ -10,8 +10,8 @@ var mergeAlternately = function(word1, word2) {
     const maxLength = Math.max(word1.length, word2.length);
     
     for(let i = 0; i < maxLength; i++) {
-        if(i < word1.length) result += word1[i];
-        if(i < word2.length) result += word2[i];
+        if(word1[i]) result += word1[i];
+        if(word2[i]) result += word2[i];
     }
     
     return result;
