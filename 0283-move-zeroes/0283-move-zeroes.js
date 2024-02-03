@@ -4,17 +4,19 @@
  */
 var moveZeroes = function(nums) {
     let l = nums.length;
-    let i = 0;
-    for(let j = 1; j < l; j++) {
-        if(nums[i] == 0 && nums[j] !== 0) {
-            let t = nums[i];
-            nums[i] = nums[j];
-            nums[j] = t;
-            i++;
-        } else if(nums[i] !== 0 && nums[j] === 0) {
-            i = j;
+    let insertPos = 0;
+    for(let i = 0; i < l; i++) {
+        if(nums[i] !== 0) {
+            nums[insertPos] = nums[i];
+            insertPos++;
         }
     }
+    
+    // copy zeros at end
+    while(insertPos < l) {
+        nums[insertPos] = 0;
+        insertPos++;
+    } 
     
     return;
 };
