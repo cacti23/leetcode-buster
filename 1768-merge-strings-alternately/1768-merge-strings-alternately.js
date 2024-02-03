@@ -4,11 +4,22 @@
  * @return {string}
  */
 var mergeAlternately = function(word1, word2) {
-    // store the maximum length 
-    const maxLength = Math.max(word1.length, word2.length);
+    let i = 0, j = 0;
+    let l1 = word1.length;
+    let l2 = word2.length;
+    let s = '';
     
-    return Array.from({length: maxLength}).reduce((acc, _, i)=> acc += (word1[i] || '') + (word2[i] || ''), '');
+    while(i < l1 && j < l2) {
+        s += word1[i++] + word2[j++];
+    }
+    
+    while(i < l1) {
+        s += word1[i++];
+    }
+    
+    while(j < l2) {
+        s += word2[j++];
+    }
+    
+    return s;
 };
-
-// tc -> O(max(n, m))
-// sc -> O(n + m)
