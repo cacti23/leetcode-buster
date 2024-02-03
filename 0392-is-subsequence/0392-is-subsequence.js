@@ -8,9 +8,8 @@ var isSubsequence = function(s, t) {
     let lt = t.length;
     
     if(ls > lt) return false;
-    if(ls == 0 && lt === 0) return true;
     
-    let i = 0, j = 0;
+    let i = 0;
     
     for(let j = 0; j < lt; j++) {
         if(s[i] === t[j]) {
@@ -22,7 +21,9 @@ var isSubsequence = function(s, t) {
         }
     }
     
-    return false;
+    
+    // in case of both of string lenght is zero
+    return i === ls;
 };
 
 // tc -> O(n)
