@@ -10,18 +10,11 @@ var maxArea = function(height) {
         const h = Math.min(height[i], height[j]);
         area = Math.max(area, h * (j - i));
         // find the next taller line
-        while(height[i] <= h && i < j) i++;
-        while(height[j] <= h && i < j) j--;
+        if (height[i] < height[j]) i++;
+	    else j--;
     }
     
     return area;
 };
-
-// Begin with the widest container, considering the first and last lines.
-// Other containers are narrower, requiring greater height for more water.
-// Skip lines at both ends that cannot support taller containers.
-// Evaluate the new container obtained.
-// Continue until no more containers remain.
-
 // tc -> O(n)
 // sc -> O(1)
