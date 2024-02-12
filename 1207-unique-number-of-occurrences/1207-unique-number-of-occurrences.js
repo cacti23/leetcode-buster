@@ -27,4 +27,4 @@ var uniqueOccurrences = function(arr) {
 // tip of the day: javacript object keys are always string or symbols. If you provide integers js will automatically convert it into string
 
 // tc -> O(n)
-// sc -> O(n)
+// sc -> O(m)
