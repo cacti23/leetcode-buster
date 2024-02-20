@@ -1,17 +1,17 @@
 function removeStars(s: string): string {
     const l = s.length;
-    let ans = '';
+    let ans: string[] = [];
     
     for(let i = 0; i < l; i++) {
         let char = s[i];
         if(char === '*') {
-            ans = ans.slice(0, ans.length - 1);
+            ans.pop();
         } else {
-            ans += char;
+            ans.push(char);
         }
     }
     
-    return ans;
+    return ans.join('');
 };
 
 // tc -> O(n)
