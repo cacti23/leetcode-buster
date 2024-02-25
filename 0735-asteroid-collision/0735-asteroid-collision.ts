@@ -10,7 +10,7 @@ function asteroidCollision(as: number[]): number[] {
     for(let i = 0; i < l; i++) {
         temp = as[i];
         // if any positive value comes just insert it
-        if(as[i] > 0) {
+        if(temp > 0) {
             st[j++] = temp;
         } else {
             // for negative values
