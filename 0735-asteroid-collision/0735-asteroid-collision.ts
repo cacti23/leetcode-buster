@@ -69,7 +69,7 @@ function asteroidCollision(as: number[]): number[] {
         } else {
             // for negative values
             // if the positive values in stack is less then the negative value then we keep popping the positive element
-            while(!(st.length === 0) && st[j - 1] > 0 && st[j - 1] < Math.abs(temp)) {
+            while(!(j === 0) && st[j - 1] > 0 && st[j - 1] < Math.abs(temp)) {
                 st.pop();
                 j--;
             }
@@ -77,12 +77,12 @@ function asteroidCollision(as: number[]): number[] {
             // now inside the stack can be empty or number at top can be negative or positive greater than the current element
             
             // if the number is positive but same as the current element
-            if(!(st.length === 0) && st[j - 1] === Math.abs(temp)) {
+            if(!(j === 0) && st[j - 1] === Math.abs(temp)) {
                 st.pop();
                 j--;
                 
             // we will insert the asteroid only when the stack is empty or the number is negative so there is not chance for collision
-            } else if(st.length === 0 || st[j - 1] < 0) {
+            } else if(j === 0 || st[j - 1] < 0) {
                 st[j++] = temp;
             }
         }
