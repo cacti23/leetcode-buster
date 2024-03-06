@@ -1,10 +1,11 @@
 class MyCircularQueue {
+    
     private data: number[];
     private front: number;
     private back: number;
-    private maxSize: number;
     private currentSize: number;
-
+    private maxSize: number;
+    
     constructor(k: number) {
         this.data = new Array<number>(k);
         this.front = -1;
@@ -14,11 +15,9 @@ class MyCircularQueue {
     }
 
     enQueue(value: number): boolean {
-        // check if the queue is full 
         if(this.isFull()) return false;
         
         if(this.front === -1) this.front = 0;
-        
         this.back = (this.back + 1) % this.maxSize;
         this.data[this.back] = value;
         this.currentSize++;
@@ -27,7 +26,6 @@ class MyCircularQueue {
     }
 
     deQueue(): boolean {
-        // check if the queue is empty
         if(this.isEmpty()) return false;
         
         this.front = (this.front + 1) % this.maxSize;
@@ -47,7 +45,7 @@ class MyCircularQueue {
     }
 
     isEmpty(): boolean {
-        return this.currentSize === 0
+        return this.currentSize === 0;
     }
 
     isFull(): boolean {
