@@ -11,12 +11,9 @@ function isAnagram(s: string, t: string): boolean {
     
     // now the frequency array setup is done
     for(let i = 0; i < m; i++) {
-        freq[t.charCodeAt(i) - 97]--;
-    }
-    
-    // now checking all the values of freq array must be zero
-    for(let i = 0; i < 26; i++) {
-        if(freq[i] < 0) return false;
+        let ind = t.charCodeAt(i) - 97;
+        if(freq[ind] <= 0) return false;
+        freq[ind]--;
     }
     
     return true;
