@@ -1,41 +1,23 @@
 function compress(chars: string[]): number {
-    // two pointer 
-    let n = chars.length;
-    if(n == 1) return 1;
+    let compressedString = '';
+    let countConsecutive = 0;
     
-    let i = 0, j = 1, s = '';
-    
-    while(i < n && j < n) {
-        if(chars[i] === chars[j]) {
-            j++;
-        } else {
-            let count = j - i;
-            if(count > 1) {
-                s += chars[i] + count;
-            } else {
-                s += chars[i];
-            }
-            i = j;
-            j++;
+    for(let i = 0; i < chars.length; i++) {
+        countConsecutive++;
+        
+        if(i + 1 >= chars.length ||chars[i] !== chars[i + 1]) {
+            if(countConsecutive > 1) compressedString += chars[i] + countConsecutive;
+            else compressedString += chars[i];
+            countConsecutive = 0;
         }
+        
+
     }
     
-    if(i < n) {
-        let count = n - (i);
-        if(count > 1) {
-            s += chars[i] + count;
-        } else {
-            s += chars[i];
-        }
+    for(let i = 0; i < compressedString.length; i++) {
+        chars[i] = compressedString[i];
     }
     
-    let m = s.length;
-    for(let k = 0; k < m; k++) {
-        chars[k] = s[k];
-    }
-    
-    return m;
+    return compressedString.length;
 };
 
-// tc -> O(n)
-// sc -> O(m)
