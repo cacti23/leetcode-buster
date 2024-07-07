@@ -26,8 +26,9 @@ function deleteMiddle(head: ListNode | null): ListNode | null {
         slow = slow.next;
     }
     
-    prev.next = prev.next.next;
+    prev.next = slow.next;
     return head;
 };
 
 // tc -> O(n)
+// sc -> O(1)
