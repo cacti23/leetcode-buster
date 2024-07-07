@@ -15,20 +15,19 @@ function deleteMiddle(head: ListNode | null): ListNode | null {
     if(head === null || head.next === null) {
         return null;
     }
+    
     let fast = head;
     let slow = head;
+    let prev = null
     
     while(fast !== null && fast.next !== null) {
         fast = fast.next.next;
+        prev = slow;
         slow = slow.next;
     }
     
-    // now slow pointer is at the correct place
-    let curr = head;
-    while(curr.next != slow) {
-        curr = curr.next;
-    }
-    
-    curr.next = curr.next.next;
+    prev.next = prev.next.next;
     return head;
 };
+
+// tc -> O(n)
