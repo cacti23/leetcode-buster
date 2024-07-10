@@ -11,56 +11,29 @@
  */
 
 function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | null {
-    let head = new ListNode(-1);
-    let c1, c2, sum = 0, carry = 0, digit = 0;
-    let temp = head;
+    const dummyHead = new ListNode(-1);
+    let current = dummyHead;
+    let carry = 0;
     
-    while(l1 !== null && l2 !== null) {
-        c1 = l1;
-        c2 = l2;
+    while(l1 !== null || l2 !== null || carry !== 0) {
+        let sum = carry;
         
-        l1 = l1.next;
-        l2 = l2.next;
+        if(l1 !== null) {
+            sum += l1.val;
+            l1 = l1.next;
+        }
         
-        sum = c1.val + c2.val + carry;
+        if(l2 !== null) {
+            sum += l2.val;
+            l2 = l2.next;
+        }
+        
+        const digit = sum % 10;
         carry = Math.floor(sum / 10);
-        digit = sum % 10;
         
-        // use c1 node's to store the new valu
-        c1.val = digit
-        temp.next = c1;
-        temp = c1;
+        current.next = new ListNode(digit);
+        current = current.next;
     }
     
-    while(l1 !== null) {
-        c1 = l1;
-        sum = l1.val + carry;
-        carry = Math.floor(sum / 10);
-        digit = sum % 10;
-        
-        l1 = l1.next;
-        
-        c1.val = digit
-        temp.next = c1;
-        temp = c1;
-    }
-    
-    while(l2 !== null) {
-        c2 = l2;
-        sum = l2.val + carry;
-        carry = Math.floor(sum / 10);
-        digit = sum % 10;
-        
-        l2 = l2.next;
-        
-        c2.val = digit
-        temp.next = c2;
-        temp = c2;
-    }
-    
-    if(carry > 0) {
-        temp.next = new ListNode(carry);    
-    }
-    
-    return head.next;
+    return dummyHead.next;
 };
