@@ -8,22 +8,14 @@ func longestConsecutive(nums []int) int {
     
     res := 0
     
-    // iterate the loop and find the sequence
+    // iterate the loop and find the seq
     for _, v := range nums {
-        count := 0;
-        // find if this is the sequence starting
-        if _, ok := hashMap[v - 1]; ok {
-            continue
-        } else {
-            // if it is a starting sequnce then count the seq
-            key := v
-            for {
-                _, ok := hashMap[key]
-                
-                if !ok {
-                    break
-                }
-                
+        // if this is the starting of the seq
+        if !hashMap[v - 1] {
+            count := 1
+            key := v + 1
+            
+            for hashMap[key] {
                 count++
                 key++
             }
