@@ -1,14 +1,13 @@
 func lengthOfLongestSubstring(s string) int {
-    // can be done using two for loops with hashmap but that is not optimal solution 
-    // whenever something related to substring comes plese think about two pointers and sliding window
-    // hash map to store the character and index
-    hm := make(map[rune]int)
+    // when you are working with ascii dont use rune
+    hm := make(map[byte]int)
     j := 0
     maxLen := 0
+    n := len(s)
     
-    for i, c := range s {
+    for i := 0; i < n; i++  {
+        c := s[i]
         if _, ok := hm[c]; ok {
-            // update the index if the j is less than or equal to that for case abba
             if(j <= hm[c]) {
                 j = hm[c] + 1
             }
