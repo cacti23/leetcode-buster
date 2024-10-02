@@ -1,15 +1,15 @@
 func minWindow(s string, t string) string {
     l, r := 0, 0
     n, m := len(s), len(t)
+    // using byte cuz of ascii
     hmT := make(map[byte]int, m)
-    hmS := make(map[byte]int, m)
-    
+    hmS := make(map[byte]int, m) 
     have, need := 0, 0
     res := ""
-    resLen := n + 1  // Set initial result length to be larger than any possible window
+    resLen := n + 1 // cuz we are trying to find the minimum length
     
-    // Populate the hmT with counts of each character in t
-    for i := 0; i < m; i++ {
+    // update hmT
+    for i := range t {
         hmT[t[i]]++
     }
     
@@ -18,7 +18,7 @@ func minWindow(s string, t string) string {
     for r < n {
         eCh := s[r]
         
-        // Process the character at the right pointer
+        // update the hmS 
         if _, ok := hmT[eCh]; ok {
             hmS[eCh]++
             if hmS[eCh] == hmT[eCh] {
@@ -26,31 +26,28 @@ func minWindow(s string, t string) string {
             }
         }
         
-        // Once we've satisfied all characters in t
+        // if we have all chars reduce the length
         for have == need {
-            // Check if the current window is smaller
-            if (r - l + 1) < resLen {
+            if r - l + 1 < resLen {
                 res = s[l:r+1]
                 resLen = r - l + 1
             }
             
             sCh := s[l]
             
-            // Try to reduce the window size from the left
-            if _, ok := hmT[sCh]; ok {
+            if _, ok := hmS[sCh]; ok {
                 hmS[sCh]--
                 if hmS[sCh] < hmT[sCh] {
                     have--
                 }
             }
             
-            l++  // Move the left pointer
+            l++
         }
-        
-        r++  // Move the right pointer
+        r++
     }
     
-    if resLen == n+1 {
+    if resLen == n + 1 {
         return ""
     }
     
