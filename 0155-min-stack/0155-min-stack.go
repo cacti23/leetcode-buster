@@ -1,64 +1,63 @@
-type MinStack struct {
-    stack []int
-    minStack []int
+type StackNode struct {
+    data int
+    min int // minimum value at this point in the stack
+    next *StackNode
 }
 
+type MinStack struct {
+    top *StackNode
+}
 
 func Constructor() MinStack {
     return MinStack{
-        stack:      []int{},
-        minStack:   []int{},
+        top: nil,
     }
 }
 
 
 func (ms *MinStack) Push(val int)  {
-    ms.stack = append(ms.stack, val)
-    m := len(ms.minStack)
-    
-    if m == 0 || val <= ms.minStack[m - 1] {
-        ms.minStack = append(ms.minStack, val)
+    if ms.top == nil {
+        ms.top = &StackNode{
+            data: val, 
+            min: val,
+            next: nil,
+        }
+    } else {
+        newMin := min(val, ms.top.min)
+        newNode := &StackNode{
+            data: val, 
+            min: newMin, 
+            next: ms.top, // new node will be new top and next will pooint to old top
+        }
+        
+        ms.top = newNode
     }
 }
 
 
 func (ms *MinStack) Pop()  {
-    n := len(ms.stack)
-    m := len(ms.minStack)
-    
-    if n == 0 {
-        return
-    }
-    
-    if ms.stack[n - 1] == ms.minStack[m - 1] {
-        ms.stack = ms.stack[:n - 1]
-        ms.minStack = ms.minStack[:m - 1]
-    } else {
-        ms.stack = ms.stack[:n - 1]
+    if ms.top != nil {
+        ms.top = ms.top.next
+        // no need to delete the node cuz in golang once the refernce is removed it will be automatically get removed
     }
 }
 
 
 func (ms *MinStack) Top() int {
-    n := len(ms.stack)
-    
-    if n == 0 {
-        return 0
+    if ms.top != nil {
+        return ms.top.data
     }
     
-    return ms.stack[n - 1]
+    return 0
 }
 
 
 func (ms *MinStack) GetMin() int {
-    n := len(ms.stack)
-    m := len(ms.minStack)
-    
-    if n == 0 {
-        return 0
+    if ms.top != nil {
+        return ms.top.min
     }
     
-    return ms.minStack[m - 1]
+    return 0
 }
 
 
