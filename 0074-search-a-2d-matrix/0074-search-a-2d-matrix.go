@@ -28,3 +28,6 @@ func searchMatrix(matrix [][]int, target int) bool {
     
     return false
 }
+
+// TC -> O(log(m*n))
+// SC -> O(1)
