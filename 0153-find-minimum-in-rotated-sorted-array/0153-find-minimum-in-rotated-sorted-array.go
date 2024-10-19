@@ -1,23 +1,31 @@
 func findMin(nums []int) int {
-    res := nums[0]
     l, r := 0, len(nums) - 1
+    res := math.MaxInt
     
     for l <= r {
+        // identify the sorted half 
         m := (l + r) / 2
+        mVal := nums[m]
         
-        // suppose nums[p] is 17 and nums[0] is 11 then smaller element will lie on right side of 17
-        if nums[m] >= nums[0] {
+        // check for sorted half
+        if nums[l] <= mVal {
+            // left half is sorted 
+            // we will store the minimum value and move to next 
+            if res > nums[l] {
+                res = nums[l]
+            }
+            
             l = m + 1
         } else {
-            if nums[m] < res {
-                res = nums[m]
+            // right half is sorted 
+            // we will store the minimum and move to next 
+            if res > mVal {
+                res = mVal
             }
+            
             r = m - 1
         }
     }
     
     return res
 }
-
-// tc -> O(logn)
-// sc -> O(1)
