@@ -13,10 +13,9 @@ func reverseList(head *ListNode) *ListNode {
     
     cNode := head
     var pNode *ListNode // assignd nil rn
-    var temp *ListNode
     
     for cNode != nil {
-        temp = cNode.Next
+        temp := cNode.Next
         cNode.Next = pNode
         pNode = cNode
         cNode = temp
