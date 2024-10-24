@@ -7,41 +7,55 @@
  * }
  */
 
-func copyRandomList(h *Node) *Node {
-    if h == nil {
-        return h
+func copyRandomList(head *Node) *Node {
+    if head == nil {
+        return head
     }
     
-    // map to hold the original node nd it's copy
-    nMap := make(map[*Node]*Node)
+    c1 := head
+    var t1 *Node
     
-    // create the new head noded and start the loop
-    current := h
-    copyHead := &Node{Val: current.Val}
-    prevCopy := copyHead
-    nMap[current] = copyHead
-    
-    // first pass create the new linked list with only next pointer
-    for current = current.Next; current != nil; current = current.Next {
-        newNode := &Node{Val: current.Val}
-        nMap[current] = newNode
-        prevCopy.Next = newNode
-        prevCopy = newNode
+    // first pass: add new nodes next to the old nodes
+    for c1 != nil {        
+        t1 = c1.Next
+        c1.Next = &Node{Val: c1.Val}
+        c1.Next.Next = t1
+        c1 = t1
     }
     
-    // second pass use map to get the copy on random pointer
-    current = h
-    copyCurrent := copyHead
-    
-    for current != nil {
-        copyCurrent.Random = nMap[current.Random]
+    c1 = head
+    c2 := head.Next
+    // second pass: set the random pointer correctly
+    for c1 != nil {
+        if c1.Random == nil {
+            c2.Random = nil
+        } else {
+            c2.Random = c1.Random.Next
+        }
         
-        current = current.Next
-        copyCurrent = copyCurrent.Next
+        c1 = c2.Next
+        if c1 != nil {
+            c2 = c1.Next
+        }
     }
     
-    return copyHead
+    // third pass: separate the old nodes from new
+    c1 = head
+    c2 = head.Next
+    res := head.Next
+    
+    for c1 != nil { 
+        c1.Next = c2.Next
+        if c2.Next == nil {
+            c2.Next = nil
+        } else {
+            c2.Next = c2.Next.Next
+        }
+        
+        c1 = c1.Next
+        c2 = c2.Next
+    }
+    
+    return res
+    
 }
-
-// tc -> O(n) + O(n)
-// sc -> O(n)
