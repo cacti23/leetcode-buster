@@ -5,27 +5,42 @@
  *     Next *ListNode
  * }
  */
-func mergeKLists(lists []*ListNode) *ListNode {
-    nodeArr := make([]int, 0)
-    // brute force
-    // add all elements to array sort array then create sorted linked list
-    for _, list := range lists {
-        curr := list 
-        for curr != nil {
-            nodeArr = append(nodeArr, curr.Val)
-            curr = curr.Next
-        }
-    }
-    
-    sort.Ints(nodeArr)
-    
+func mergeList(l1 *ListNode, l2 *ListNode) *ListNode {
     dummy := &ListNode{}
     curr := dummy
-    for _, v := range nodeArr {
-        temp := &ListNode{Val: v, Next: nil} 
-        curr.Next = temp
+    
+    for l1 != nil && l2 != nil {
+        if l1.Val <= l2.Val {
+            curr.Next = l1
+            l1 = l1.Next
+        } else {
+            curr.Next = l2
+            l2 = l2.Next
+        }
+        
         curr = curr.Next
     }
     
+    // remaining elements for l1 and l2
+    if l1 != nil {
+        curr.Next = l1
+    }
+    
+    if l2 != nil {
+        curr.Next = l2
+    }
+    
     return dummy.Next
+}
+
+func mergeKLists(lists []*ListNode) *ListNode {
+    if len(lists) == 0 {
+        return nil
+    }
+    
+    for i := 1; i < len(lists); i++ {
+        lists[i] = mergeList(lists[i - 1], lists[i])
+    }
+    
+    return lists[len(lists) - 1]
 }
