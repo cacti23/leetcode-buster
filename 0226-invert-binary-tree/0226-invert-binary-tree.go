@@ -11,14 +11,28 @@ func invertTree(root *TreeNode) *TreeNode {
         return nil
     }
     
-    // swap left and right chilren
-    root.Left, root.Right = root.Right, root.Left
+    queue := []*TreeNode{root}
     
-    invertTree(root.Left)
-    invertTree(root.Right)
+    for len(queue) > 0 {
+        // get the first node
+        node := queue[0]
+        // remove the first node
+        queue = queue[1:]
+        
+        // exchange the values
+        node.Left, node.Right = node.Right, node.Left
+        
+        if node.Left != nil {
+            queue = append(queue, node.Left)
+        }
+        
+        if node.Right != nil {
+            queue = append(queue, node.Right)
+        }
+    }
     
     return root
 }
 
-// tc -> O(n), n is the number of nodes in the tree
-// sc -> O(h), h is the height of the tree
+// tc -> O(n), number of nodes
+// sc -> O(w), maximum width of tree, O(n) in the worst case
