@@ -7,13 +7,16 @@
  * }
  */
 func maxDepth(root *TreeNode) int {
-    // using recursive dfs
+    // dfs recursive
     if root == nil {
         return 0
     }
     
-    return 1 + max(maxDepth(root.Left), maxDepth(root.Right))
+    left := maxDepth(root.Left)
+    right := maxDepth(root.Right)
+    
+    return 1 + max(left, right)
 }
 
-// tc -> O(n), n is the number of nodes present
-// sc -> O(h), maximum height of tree
+// tc -> O(n), n is number of total nodes
+// sc -> O(h), h depth of tree
