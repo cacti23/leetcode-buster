@@ -6,20 +6,26 @@
  *     Right *TreeNode
  * }
  */
-
-func dfs(root *TreeNode, res *[]int) {
-    if root == nil {
-        return
-    }
-    
-    dfs(root.Left, res)
-    *res = append(*res, root.Val)
-    dfs(root.Right, res)
-}
-
-func inorderTraversal(root *TreeNode) []int {
+func inorderTraversal(root *TreeNode) []int {    
+    stack := []*TreeNode{}
+    curr := root
     res := []int{}
-    dfs(root, &res)
+    
+    for curr != nil || len(stack) > 0 {
+        // reach the leftmost of the current node
+        for curr != nil {
+            stack = append(stack, curr)
+            curr = curr.Left
+        }
+        
+        // process the element on the top of the stack & remove it 
+        curr = stack[len(stack) - 1]
+        stack = stack[:len(stack) - 1]
+        
+        res = append(res, curr.Val)
+        
+        curr = curr.Right
+    }
     
     return res
 }
